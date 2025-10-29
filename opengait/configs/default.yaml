@@ -10,7 +10,7 @@ data_cfg:
 evaluator_cfg:
   enable_float16: false
   restore_ckpt_strict: true
-  restore_hint: 80000
+  restore_hint: 120000
   save_name: tmp
   eval_func: evaluate_indoor_dataset
   sampler:

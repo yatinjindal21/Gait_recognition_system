@@ -2,8 +2,8 @@ import os
 import argparse
 import torch
 import torch.nn as nn
-from modeling import models
-from utils import config_loader, init_seeds, params_count, get_msg_mgr
+from opengait.modeling import models
+from opengait.utils import config_loader, init_seeds, params_count, get_msg_mgr
 
 parser = argparse.ArgumentParser(description='Main program for opengait.')
 parser.add_argument('--cfgs', type=str,
@@ -16,6 +16,18 @@ parser.add_argument('--iter', default=0, help="iter to restore")
 opt = parser.parse_args()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def build_model(cfgs, training=False):
+    model_cfg = cfgs['model_cfg']
+    Model = getattr(models, model_cfg['model'])
+    model = Model(cfgs, training)
+    if training and cfgs['trainer_cfg']['sync_BN'] and torch.cuda.device_count() > 1:
+        model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
+    if cfgs['trainer_cfg']['fix_BN']:
+        model.fix_BN()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
+    return model
 
 def initialization(cfgs, training):
     msg_mgr = get_msg_mgr()

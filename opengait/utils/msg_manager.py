@@ -16,6 +16,13 @@ class MessageManager:
         self.info_dict = Odict()
         self.writer_hparams = ['image', 'scalar']
         self.time = time.time()
+        self.logger = logging.getLogger("opengait")
+        if not self.logger.handlers:
+            handler = logging.StreamHandler()
+            formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+            handler.setFormatter(formatter)
+            self.logger.addHandler(handler)
+        self.logger.setLevel(logging.INFO)
 
     def init_manager(self, save_path, log_to_file, log_iter, iteration=0):
         self.iteration = iteration

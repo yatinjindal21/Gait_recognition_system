@@ -1,19 +1,23 @@
 data_cfg:
   dataset_name: CASIA-B
-  dataset_root: C:\Users\Dell\OneDrive\Desktop\Capstone\GaitPart_Implement\datasets\CASIA-B-pkl
+  dataset_root: C:/Users/Dell/OneDrive/Desktop/Capstone/GaitPart_Implement/datasets/CASIA-B-pkl
+  dataset_partition: C:/Users/Dell/OneDrive/Desktop/Capstone/GaitPart_Implement/datasets/CASIA-B/CASIA-B.json
   num_workers: 1
   remove_no_gallery: false
+  cache: false
   test_dataset_name: CASIA-B
 
 evaluator_cfg:
   enable_float16: false
   restore_ckpt_strict: true
-  restore_hint: 120000
+  restore_hint: opengait/output/CASIA-B/GaitPart/GaitPart/checkpoints/GaitPart-120000.pt
   save_name: GaitPart
   sampler:
     batch_size: 16
     sample_type: all_ordered
     type: InferenceSampler
+  transform:
+    - type: BaseSilCuttingTransform
   metric: euc # cos
 
 loss_cfg:
@@ -60,6 +64,7 @@ trainer_cfg:
   enable_float16: true
   log_iter: 100
   with_test: true
+  fix_BN: false
   restore_ckpt_strict: true
   restore_hint: 0
   save_iter: 10000
@@ -77,3 +82,5 @@ trainer_cfg:
     frames_skip_num: 10
     sample_type: fixed_ordered
     type: TripletSampler
+  transform:
+    - type: BaseSilCuttingTransform

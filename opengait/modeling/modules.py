@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
-from utils import clones, is_list_or_tuple
+from opengait.utils import clones, is_list_or_tuple
 from torchvision.ops import RoIAlign
 
 
@@ -61,7 +61,7 @@ class PackSequenceWrapper(nn.Module):
         """
         if seqL is None:
             return self.pooling_func(seqs, **options)
-        seqL = seqL[0].data.cpu().numpy().tolist()
+        # seqL = seqL[0].data.cpu().numpy().tolist()
         start = [0] + np.cumsum(seqL).tolist()[:-1]
 
         rets = []

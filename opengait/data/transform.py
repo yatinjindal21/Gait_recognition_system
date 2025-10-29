@@ -2,8 +2,8 @@ import numpy as np
 import random
 import torchvision.transforms as T
 import math
-from data import transform as base_transform
-from utils import is_list, is_dict, get_valid_args
+from opengait.data import transform as base_transform
+from opengait.utils import is_list, is_dict, get_valid_args
 
 
 class BaseSilCuttingTransform():

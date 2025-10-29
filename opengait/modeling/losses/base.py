@@ -1,7 +1,7 @@
 from ctypes import ArgumentError
 import torch.nn as nn
 import torch
-from utils import Odict
+from opengait.utils import Odict
 import functools
 
 
